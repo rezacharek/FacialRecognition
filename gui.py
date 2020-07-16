@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QFileDialog, QTextEdit, QPus
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QDir
 
+import encryption as crypt
+
 filenames = []
 
 class DialogApp(QWidget):
@@ -24,11 +26,17 @@ class DialogApp(QWidget):
 		self.filenames = []
 		if dialog.exec_():
 			self.filenames.append(dialog.selectedFiles()[0])
-			print(self.filenames)
+			filenames.append(dialog.selectedFiles()[0])
+
+			if self.filenames:
+    				crypt.decrypt_and_open(self.filenames[-1])
+			
 
 if __name__ == '__main__':
 	app = QApplication(sys.argv)
 
 	demo = DialogApp()
 	demo.show()
+
+
 	sys.exit(app.exec_())
